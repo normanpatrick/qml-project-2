@@ -7,14 +7,21 @@ import json
 import random
 import numpy as np
 from PIL import Image
+import skimage.transform
 
 class TIGDataset(object):
-    def __init__(self, topdir, json_files, how_many_classes=6, seed=101):
+    def __init__(self,
+                 topdir,
+                 json_files,
+                 resize=None,
+                 how_many_classes=6,
+                 seed=101):
         self.topdir = os.path.expanduser(topdir)
         self.json_files = json_files
         self.how_many_classes = how_many_classes
         self.dataset = {k: [] for k in range(how_many_classes)}
         self.duplicates = []
+        self.resize = resize
         self._consolidate()
         random.seed(seed)
         for label in self.dataset:
@@ -47,12 +54,15 @@ class TIGDataset(object):
     def _image(self, fname):
         img = Image.open(fname)
         img.load()
-        return np.asarray(img, dtype="int32" )
+        npi = np.asarray(img, dtype="int32")
+        return npi if self.resize is None \
+            else skimage.transform.resize(npi, self.resize)
 
     def __repr__(self):
         dup = len(self.duplicates)
         total = 0
-        s = "TIGDataset\n"
+        rs = "no" if self.resize is None else self.resize
+        s = f"TIGDataset (resize: {rs})\n"
         for k in self.dataset.keys():
             samples = len(self.dataset[k])
             total += samples
