@@ -7,6 +7,7 @@ import os
 import json
 import random
 import numpy as np
+from pprint import pprint
 from PIL import Image
 import skimage.transform
 
@@ -45,6 +46,26 @@ class TIGDataAccess(object):
             os.path.join(self.dir_preprocess, pth),
             os.path.join(self.dir_preprocess, pdir)
         )
+
+    def load_data(self,
+                  resize,
+                  normalize,
+                  force=False,
+                  max_items_per_label=0):
+        data_X = []
+        data_y = []
+        f_meta = self._fname_meta(norm=normalize, resize=resize)
+        assert os.path.exists(f_meta), "dataset meta file must exist"
+        with open(f_meta) as f:
+            jdata = json.loads(f.read())
+            # pprint(jdata["npy"])
+            labels = jdata["meta"].keys()
+            for l in labels:
+                for ii in range(max_items_per_label):
+                    npy_fname = jdata["npy"][l][ii]
+                    data_X.append(np.load(npy_fname))
+                    data_y.append(l)
+        return np.array(data_X), np.array(data_y)
 
     """
     - pre-process all images

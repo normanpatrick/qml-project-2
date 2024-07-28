@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import misc
+from sklearn.model_selection import train_test_split
 
 topdir_dataset = "~/1/dataset/al5083"
 topdir_preprocess = "~/1/dataset/preprocess"
@@ -52,10 +53,29 @@ def test_03():
                             how_many_classes=6,
                             dir_preprocess=topdir_preprocess,
                             json_files=json_files)
-    da.setup(max_items_per_label=4,
+    da.setup(max_items_per_label=10,
              force=True,
              resize=rsize,
              normalize=normalize)
+
+def test_04():
+    rsize = (60,50)
+    normalize = True
+    da = misc.TIGDataAccess(dir_in=topdir_dataset,
+                            how_many_classes=6,
+                            dir_preprocess=topdir_preprocess,
+                            json_files=json_files)
+    X, y = da.load_data(max_items_per_label=4,
+                        resize=rsize,
+                        normalize=normalize)
+    seed = 101
+    X_train, X_val, y_train, y_val = train_test_split(X,
+                                                      y,
+                                                      random_state=seed,
+                                                      test_size=0.3)
+    print("Original :", X.shape, y.shape)
+    print("training :", X_train.shape, y_train.shape)
+    print("validation:", X_val.shape, y_val.shape)
 
 def main():
     test_fns = [
@@ -63,6 +83,7 @@ def main():
         test_01,
         test_02,
         test_03,
+        test_04,
     ]
     max_tid = len(test_fns) - 1
 
