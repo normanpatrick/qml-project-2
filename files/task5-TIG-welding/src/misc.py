@@ -6,6 +6,7 @@ Copyright (C) Nirmalendu B Patra - All Rights Reserved
 import os
 import json
 import random
+import hashlib
 import numpy as np
 from pprint import pprint
 from PIL import Image
@@ -26,6 +27,9 @@ class TIGDataAccess(object):
         self.json_files = json_files
         self.how_many_classes=how_many_classes
         self.td = None
+        self.uniq_name = \
+            lambda x: hashlib.md5(x.encode('utf-8')).hexdigest()
+
 
     def _fname_meta(self, norm, resize):
         row, col = resize
@@ -93,7 +97,7 @@ class TIGDataAccess(object):
             for label in range(self.how_many_classes):
                 for img in self.td.next_image(label=label):
                     total += 1
-                    fname =  os.path.split(img)[-1]
+                    fname =  self.uniq_name(img) # os.path.split(img)[-1]
                     i_p, i_dir = self._img_path(norm=normalize,
                                                 label=label,
                                                 resize=resize,
