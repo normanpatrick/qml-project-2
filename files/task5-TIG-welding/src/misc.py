@@ -120,7 +120,7 @@ class TIGDataset(object):
         for item in self.dataset[label]:
             yield item
 
-    def _read_single_image(self, img):
+    def process_single_image(self, img):
         assert os.path.exists(img) == True
         imdata = self._image(img)
         if self.normalize:
@@ -132,7 +132,7 @@ class TIGDataset(object):
         for label, num in d_how_many.items():
             res[label] = []
             for img in self.dataset[label][:num]:
-                res[label].append(self._read_single_image(img))
+                res[label].append(self.process_single_image(img))
         return res
 
     def _image(self, fname):

@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import misc
 
@@ -45,8 +46,24 @@ def test_02():
     da.setup(max_items_per_label=4, resize=rsize, normalize=normalize)
 
 def main():
-    test_01()
-    test_02()
+    test_fns = [
+        lambda: print("This is a null test"),
+        test_01,
+        test_02,
+    ]
+    max_tid = len(test_fns) - 1
+
+    tid = os.environ.get("TIGTEST")
+    if tid:
+        tid = int(tid)
+    else:
+        tid = 0
+        print(f"Set env var TIGTEST to 1...{max_tid} for a test")
+
+    if tid > max_tid:
+        print("Valid tests ids are 1...{max_tid}")
+        return
+    test_fns[tid]()
 
 if __name__ == '__main__':
     main()
