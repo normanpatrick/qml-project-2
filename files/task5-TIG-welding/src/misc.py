@@ -24,8 +24,13 @@ class TIGDataAccess(object):
         self.dir_preprocess = os.path.expanduser(dir_preprocess)
         self.json_files = json_files
         self.how_many_classes=how_many_classes
-        self.fname_meta = os.path.join(self.dir_preprocess, "dataset.json")
         self.td = None
+
+    def _fname_meta(self, norm, resize):
+        row, col = resize
+        n_pth = "norm" if norm else "not-normed"
+        return os.path.join(self.dir_preprocess,
+                            f"dataset_{n_pth}_r{row}_c{col}.json")
 
     # we need a way to create unique filepath since the filenames
     # in the TIG dataset are not unique at all
@@ -34,7 +39,7 @@ class TIGDataAccess(object):
         row, col = resize
         n_pth = "normalized" if norm else "not-normalized"
         l = f"label-{label}"
-        pdir = f"{n_pth}/{l}/{row}/{col}"
+        pdir = f"{n_pth}/{l}/r{row}/c{col}"
         pth = f"{pdir}/{fname_npy}"
         return (
             os.path.join(self.dir_preprocess, pth),
@@ -54,6 +59,7 @@ class TIGDataAccess(object):
               max_items_per_label=0):
         if self.td is None:
             metadata = {k:0 for k in range(self.how_many_classes)}
+            flist_npy = {k:[] for k in range(self.how_many_classes)}
             fset = set()
             os.makedirs(self.dir_preprocess, exist_ok=True)
             self.td = TIGDataset(topdir=self.dir_in,
@@ -75,17 +81,19 @@ class TIGDataAccess(object):
                     fset.add(i_p)
                     os.makedirs(i_dir, exist_ok=True)
                     metadata[label] += 1
+                    flist_npy[label].append(i_p)
                     if force or (not os.path.exists(i_p)):
                         imdata = self.td.process_single_image(img)
                         np.save(i_p, imdata)
                     # print("wahoo", i_p, os.path.exists(i_p))
             print(f"Total processed: {total}")
             print(metadata)
-            if force or (not os.path.exists(self.fname_meta)):
-                with open(self.fname_meta, "w") as f:
+            f_meta = self._fname_meta(norm=normalize, resize=resize)
+            if force or (not os.path.exists(f_meta)):
+                with open(f_meta, "w") as f:
                     f.write(json.dumps({
                         "meta": metadata,
-                        "npy": {},
+                        "npy": flist_npy,
                         },
                         indent=4))
 
