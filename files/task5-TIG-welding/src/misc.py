@@ -21,10 +21,12 @@ class TIGDataAccess(object):
                  how_many_classes,
                  dir_preprocess):
         self.dir_in = dir_in
-        self.dir_preprocess = dir_preprocess
+        self.dir_preprocess = os.path.expanduser(dir_preprocess)
         self.json_files = json_files
         self.how_many_classes=how_many_classes
         self.td = None
+        self.out_img = lambda _fname, norm_, _resize, _label: \
+            os.path.join(self.dir_preprocess, f"")
 
     """
     - pre-process all images
@@ -37,6 +39,7 @@ class TIGDataAccess(object):
               normalize,
               max_items_per_label=0):
         if self.td is None:
+            os.makedirs(self.dir_preprocess, exist_ok=True)
             self.td = TIGDataset(topdir=self.dir_in,
                                  json_files=self.json_files,
                                  how_many_classes=self.how_many_classes,
