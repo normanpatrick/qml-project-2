@@ -41,13 +41,16 @@ class TIGDataset(object):
                     else:
                         self.duplicates.append(img_path)
 
-    def samples(self, d_how_many):
+    def samples(self, d_how_many, normalize=True):
         res = {}
         for label, num in d_how_many.items():
             res[label] = []
             for img in self.dataset[label][:num]:
                 if os.path.exists(img):
-                    res[label].append(self._image(img))
+                    imdata = self._image(img)
+                    if normalize:
+                        imdata = self._image(img) / 255 # np.linalg.norm(imdata)
+                    res[label].append(imdata)
             # res[label] = self.dataset[label][:num]
         return res
 
@@ -56,7 +59,7 @@ class TIGDataset(object):
         img.load()
         npi = np.asarray(img, dtype="int32")
         return npi if self.resize is None \
-            else skimage.transform.resize(npi, self.resize)
+            else skimage.transform.resize(npi, self.resize, preserve_range=True)
 
     def __repr__(self):
         dup = len(self.duplicates)
