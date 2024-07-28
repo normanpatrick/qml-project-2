@@ -24,6 +24,7 @@ class TIGDataAccess(object):
         self.dir_preprocess = os.path.expanduser(dir_preprocess)
         self.json_files = json_files
         self.how_many_classes=how_many_classes
+        self.fname_meta = os.path.join(self.dir_preprocess, "dataset.json")
         self.td = None
 
     # we need a way to create unique filepath since the filenames
@@ -52,6 +53,7 @@ class TIGDataAccess(object):
               force=False,
               max_items_per_label=0):
         if self.td is None:
+            metadata = {k:0 for k in range(self.how_many_classes)}
             fset = set()
             os.makedirs(self.dir_preprocess, exist_ok=True)
             self.td = TIGDataset(topdir=self.dir_in,
@@ -72,8 +74,20 @@ class TIGDataAccess(object):
                     assert i_p not in fset, "there should be no duplicates"
                     fset.add(i_p)
                     os.makedirs(i_dir, exist_ok=True)
-                    print("wahoo", i_p, os.path.exists(i_p))
+                    metadata[label] += 1
+                    if force or (not os.path.exists(i_p)):
+                        imdata = self.td.process_single_image(img)
+                        np.save(i_p, imdata)
+                    # print("wahoo", i_p, os.path.exists(i_p))
             print(f"Total processed: {total}")
+            print(metadata)
+            if force or (not os.path.exists(self.fname_meta)):
+                with open(self.fname_meta, "w") as f:
+                    f.write(json.dumps({
+                        "meta": metadata,
+                        "npy": {},
+                        },
+                        indent=4))
 
 class TIGDataset(object):
     def __init__(self,

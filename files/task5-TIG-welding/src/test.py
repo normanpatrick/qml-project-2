@@ -45,11 +45,24 @@ def test_02():
                             json_files=json_files)
     da.setup(max_items_per_label=4, resize=rsize, normalize=normalize)
 
+def test_03():
+    rsize = (60,50)
+    normalize = True
+    da = misc.TIGDataAccess(dir_in=topdir_dataset,
+                            how_many_classes=6,
+                            dir_preprocess=topdir_preprocess,
+                            json_files=json_files)
+    da.setup(max_items_per_label=4,
+             force=True,
+             resize=rsize,
+             normalize=normalize)
+
 def main():
     test_fns = [
         lambda: print("This is a null test"),
         test_01,
         test_02,
+        test_03,
     ]
     max_tid = len(test_fns) - 1
 

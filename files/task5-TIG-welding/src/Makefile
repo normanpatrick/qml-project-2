@@ -13,5 +13,8 @@ t1:
 t2:
 	TIGTEST=2 python test.py
 
-test-all: t1 t2
+t3:
+	TIGTEST=3 python test.py
+
+test-all: t1 t2 t3
 	@echo "Done!"
