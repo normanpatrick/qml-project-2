@@ -42,7 +42,7 @@ def test_02():
                             how_many_classes=6,
                             dir_preprocess=topdir_preprocess,
                             json_files=json_files)
-    da.setup(max_items_per_label=15, resize=rsize, normalize=normalize)
+    da.setup(max_items_per_label=4, resize=rsize, normalize=normalize)
 
 def main():
     test_01()
