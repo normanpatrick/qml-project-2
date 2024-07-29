@@ -68,7 +68,8 @@ class TIGDataAccess(object):
                 for ii in range(max_items_per_label):
                     npy_fname = jdata["npy"][l][ii]
                     data_X.append(np.load(npy_fname))
-                    data_y.append(l)
+                    # labels/class are integers
+                    data_y.append(int(l))
         return np.array(data_X), np.array(data_y)
 
     """
