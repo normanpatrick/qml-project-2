@@ -90,6 +90,33 @@ def test_05():
     print("Original :", X.shape, y.shape)
     print(y[:16])
 
+def test_06():
+    seed = 101
+    rsize = (60,50)
+    normalize = True
+    da = misc.TIGDataAccess(dir_in=topdir_dataset,
+                            how_many_classes=6,
+                            dir_preprocess=topdir_preprocess,
+                            json_files=json_files)
+    X, y = da.load_data(max_items_per_label=100,
+                        resize=rsize,
+                        normalize=normalize)
+    X_train, X_val, y_train, y_val = train_test_split(X,
+                                                      y,
+                                                      random_state=seed,
+                                                      test_size=0.5)
+    X_val, X_test, y_val, y_test = train_test_split(X_val,
+                                                    y_val,
+                                                    random_state=seed,
+                                                    test_size=0.2)
+
+    print("X, y", X.shape, y.shape)
+    print("X_train, y_train",
+          X_train.shape, y_train.shape)
+    print("X_val, X_test, y_val, y_test",
+          X_val.shape, X_test.shape, y_val.shape, y_test.shape)
+    return X_train, X_val, X_test, y_train, y_val, y_test 
+    
 def main():
     test_fns = [
         lambda: print("This is a null test"),
@@ -98,6 +125,7 @@ def main():
         test_03,
         test_04,
         test_05,
+        test_06,
     ]
     max_tid = len(test_fns) - 1
 

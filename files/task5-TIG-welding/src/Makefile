@@ -26,6 +26,9 @@ t4:
 t5:
 	TIGTEST=5 python test.py
 
+t6:
+	TIGTEST=6 python test.py
+
 debug:
 ifneq ("$(wildcard $(PATH_TO_FILE))","")
 	export FILE_EXISTS=1
@@ -36,6 +39,6 @@ else
 endif
 
 # removed t3 since it overwrites data json file
-test-all: t1 t2 t4 t5
+test-all: t1 t2 t4 t5 t6
 	@echo "You may have to restore the metadata json file"
 	@echo "Done!"
