@@ -50,10 +50,10 @@ Prior to running any notebooks or the source code in this repository, please ins
 
 `pip install -r requirements.txt`
 
-* Task1: [task1-pennylane-codebook-study-notes.ipynb](files/task1-pennylane-codebook-study-notes.ipynb)
-* Task2: [task2-pennylane-variational-classifier.ipynb](files/task2-pennylane-variational-classifier.ipynb)
-* Task3: [task3-pennylane-Quanvolutional-NN.ipynb](files/task3-pennylane-Quanvolutional-NN.ipynb)
-* Task4: [task4-sine-wave-function.ipynb](files/task4-sine-wave-function.ipynb)
+* Task1: Complete - [task1-pennylane-codebook-study-notes.ipynb](files/task1-pennylane-codebook-study-notes.ipynb)
+* Task2: Complete - [task2-pennylane-variational-classifier.ipynb](files/task2-pennylane-variational-classifier.ipynb)
+* Task3: Complete - [task3-pennylane-Quanvolutional-NN.ipynb](files/task3-pennylane-Quanvolutional-NN.ipynb)
+* Task4: Complete - [task4-sine-wave-function.ipynb](files/task4-sine-wave-function.ipynb)
 * Task5: Unfortunately Task5 remains incomplete. The data pre-proprocessing and related unit test code can be found at [task5-TIG-welding/src](files/task5-TIG-welding/src)
 
 ### Project Presentation Deck:
