@@ -33,7 +33,7 @@ Ensure your repository does not contain any personal or team tokens/access infor
 
 ### Team Information:
 Team Member 1:
- - Full Name: Nirmalendu B Patra
+ - Full Name: **Nirmalendu B Patra**
  - Womanium Program Enrollment ID (see Welcome Email, format- WQ24-xxxxxxxxxxxxxxx): WQ24-89mZzs2i4pN7Gcv
 
 
@@ -46,6 +46,18 @@ Team Member 2: not applicable
 _Include a comprehensive summary of all important information about your project solution here._
 All necessary code files and any additional information required to judge your project solution should be included in the repository. 
 
+Prior to running any notebooks or the source code in this repository, please install required packages with the following command.
+
+`pip install -r requirements.txt`
+
+* Task1: [task1-pennylane-codebook-study-notes.ipynb](files/task1-pennylane-codebook-study-notes.ipynb)
+* Task2: [task2-pennylane-variational-classifier.ipynb](files/task2-pennylane-variational-classifier.ipynb)
+* Task3: [task3-pennylane-Quanvolutional-NN.ipynb](files/task3-pennylane-Quanvolutional-NN.ipynb)
+* Task4: [task4-sine-wave-function.ipynb](files/task4-sine-wave-function.ipynb)
+* Task5: Unfortunately Task5 remains incomplete. The data pre-proprocessing and related unit test code can be found at [task5-TIG-welding/src](files/task5-TIG-welding/src)
+
 ### Project Presentation Deck:
 _Link a 5min. presentation recording or deck here._
 
+This is related to `task5` (optional part of the project) - which I have not managed
+to complete. There are no slides to present.
